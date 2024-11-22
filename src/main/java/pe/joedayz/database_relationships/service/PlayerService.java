@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pe.joedayz.database_relationships.model.Player;
+import pe.joedayz.database_relationships.model.PlayerProfile;
 import pe.joedayz.database_relationships.repository.PlayerRepository;
 
 /**
@@ -31,4 +32,12 @@ public class PlayerService {
   public void deletePlayer(int id) {
     repo.deleteById(id);
   }
+
+  public Player assignProfile(int id, PlayerProfile profile) {
+    Player player = repo.findById(id).get();
+    player.setPlayerProfile(profile);
+    return repo.save(player);
+  }
+
+
 }
