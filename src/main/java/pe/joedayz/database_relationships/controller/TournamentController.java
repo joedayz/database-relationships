@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pe.joedayz.database_relationships.model.Category;
 import pe.joedayz.database_relationships.model.Registration;
 import pe.joedayz.database_relationships.model.Tournament;
+import pe.joedayz.database_relationships.service.CategoryService;
 import pe.joedayz.database_relationships.service.RegistrationService;
 import pe.joedayz.database_relationships.service.TournamentService;
 
@@ -28,6 +30,9 @@ public class TournamentController
 
   @Autowired
   RegistrationService registrationService;
+
+  @Autowired
+  CategoryService categoryService;
 
   @GetMapping
   public List<Tournament> allTournaments() {
@@ -59,6 +64,12 @@ public class TournamentController
   public Tournament removeRegistration(@PathVariable int id, @PathVariable int registration_id) {
     Registration registration = registrationService.getRegistration(registration_id);
     return service.removeRegistration(id, registration);
+  }
+
+  @PutMapping("/{id}/categories/{category_id}")
+  public Tournament addCategory(@PathVariable int id, @PathVariable int category_id) {
+    Category category = categoryService.getCategory(category_id);
+    return service.addCategory(id, category);
   }
 
 }

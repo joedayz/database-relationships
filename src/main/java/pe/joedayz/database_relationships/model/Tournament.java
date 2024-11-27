@@ -6,6 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +31,12 @@ public class Tournament {
   @JoinColumn(name = "tournament_id")
   private List<Registration> registrations = new ArrayList<>();
 
+  @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+  @JoinTable(
+      name = "tournament_categories",
+      joinColumns = @JoinColumn(name = "tournament_id"), //fk de la tabla
+      inverseJoinColumns = @JoinColumn(name = "category_id")) //fk del lado inverso
+  private List<Category> playingCategories = new ArrayList<>();
 
   public Tournament() {
   }
@@ -37,6 +46,15 @@ public class Tournament {
     this.name = name;
     this.location = location;
     this.registrations = registrations;
+  }
+
+  public List<Category> getPlayingCategories() {
+    return playingCategories;
+  }
+
+  public void setPlayingCategories(
+      List<Category> playingCategories) {
+    this.playingCategories = playingCategories;
   }
 
   public void addRegistration(Registration registration) {
@@ -81,6 +99,9 @@ public class Tournament {
       registrations.remove(registration);
   }
 
+  public void addCategory(Category category) {
+    playingCategories.add(category);
+  }
 
 
   @Override
@@ -90,6 +111,8 @@ public class Tournament {
         ", name='" + name + '\'' +
         ", location='" + location + '\'' +
         ", registrations=" + registrations +
+        ", playingCategories=" + playingCategories +
         '}';
   }
+
 }

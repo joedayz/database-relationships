@@ -3,6 +3,7 @@ package pe.joedayz.database_relationships.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pe.joedayz.database_relationships.model.Category;
 import pe.joedayz.database_relationships.model.Registration;
 import pe.joedayz.database_relationships.model.Tournament;
 import pe.joedayz.database_relationships.repository.TournamentRepository;
@@ -42,6 +43,12 @@ public class TournamentService {
   public Tournament removeRegistration(int id, Registration registration) {
     Tournament tournament = repo.findById(id).get();
     tournament.removeRegistration(registration);
+    return repo.save(tournament);
+  }
+
+  public Tournament addCategory(int id, Category category) {
+    Tournament tournament = repo.findById(id).get();
+    tournament.addCategory(category);
     return repo.save(tournament);
   }
 
