@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pe.joedayz.database_relationships.model.Player;
 import pe.joedayz.database_relationships.model.PlayerProfile;
+import pe.joedayz.database_relationships.model.Registration;
 import pe.joedayz.database_relationships.service.PlayerProfileService;
 import pe.joedayz.database_relationships.service.PlayerService;
+import pe.joedayz.database_relationships.service.RegistrationService;
 
 /**
  * @author josediaz
@@ -27,6 +29,8 @@ public class PlayerController {
 
   @Autowired
   PlayerProfileService profileService;
+  @Autowired
+  private RegistrationService registrationService;
 
   @GetMapping
   public List<Player> allPlayers() {
@@ -52,5 +56,11 @@ public class PlayerController {
   public Player assignDetail(@PathVariable int id, @PathVariable int profile_id){
     PlayerProfile profile = profileService.getPlayerProfile(profile_id);
     return service.assignProfile(id, profile);
+  }
+
+  @PutMapping("/{id}/registrations/{registration_id}")
+  public Player assignRegistration(@PathVariable int id, @PathVariable int registration_id) {
+    Registration registration = registrationService.getRegistration(registration_id);
+    return service.assignRegistration(id, registration);
   }
 }

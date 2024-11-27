@@ -24,7 +24,7 @@ public class Tournament {
 
   private String location;
 
-  @OneToMany(cascade = CascadeType.ALL)
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "tournament_id")
   private List<Registration> registrations = new ArrayList<>();
 
@@ -75,6 +75,13 @@ public class Tournament {
   public void setLocation(String location) {
     this.location = location;
   }
+
+  public void removeRegistration(Registration registration) {
+    if(registrations!=null)
+      registrations.remove(registration);
+  }
+
+
 
   @Override
   public String toString() {

@@ -55,4 +55,10 @@ public class TournamentController
     return service.addRegistration(id, registration);
   }
 
+  @DeleteMapping("/{id}/registrations/{registration_id}")
+  public Tournament removeRegistration(@PathVariable int id, @PathVariable int registration_id) {
+    Registration registration = registrationService.getRegistration(registration_id);
+    return service.removeRegistration(id, registration);
+  }
+
 }

@@ -38,4 +38,11 @@ public class TournamentService {
     tournament.addRegistration(registration);
     return repo.save(tournament);
   }
+
+  public Tournament removeRegistration(int id, Registration registration) {
+    Tournament tournament = repo.findById(id).get();
+    tournament.removeRegistration(registration);
+    return repo.save(tournament);
+  }
+
 }

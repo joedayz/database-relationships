@@ -8,7 +8,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author josediaz
@@ -26,6 +29,9 @@ public class Player {
   @JoinColumn(name = "profile_id", referencedColumnName = "id")
   private PlayerProfile playerProfile;
 
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "player")
+  private List<Registration> registrations = new ArrayList<>();
+
   public Player( ) {
 
   }
@@ -39,6 +45,15 @@ public class Player {
     super();
     this.name = name;
     this.playerProfile = profile;
+  }
+
+  public List<Registration> getRegistrations() {
+    return registrations;
+  }
+
+  public void setRegistrations(
+      List<Registration> registrations) {
+    this.registrations = registrations;
   }
 
   public int getId() {
@@ -64,8 +79,20 @@ public class Player {
   public void setPlayerProfile(PlayerProfile playerProfile) {
     this.playerProfile = playerProfile;
   }
+
+  public void registerPlayer(Registration registration) {
+    registrations.add(registration);
+    registration.setPlayer(this);
+  }
+
+
   @Override
   public String toString() {
-    return "Player [id=" + id + ", name=" + name + ", playerProfile=" + playerProfile + "]";
+    return "Player{" +
+        "id=" + id +
+        ", name='" + name + '\'' +
+        ", playerProfile=" + playerProfile +
+        ", registrations=" + registrations +
+        '}';
   }
 }

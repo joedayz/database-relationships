@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pe.joedayz.database_relationships.model.Player;
 import pe.joedayz.database_relationships.model.PlayerProfile;
+import pe.joedayz.database_relationships.model.Registration;
 import pe.joedayz.database_relationships.repository.PlayerRepository;
 
 /**
@@ -39,5 +40,9 @@ public class PlayerService {
     return repo.save(player);
   }
 
-
+  public Player assignRegistration(int id, Registration registration) {
+    Player player = repo.findById(id).get();
+    player.registerPlayer(registration);
+    return repo.save(player);
+  }
 }
